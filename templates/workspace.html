@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>AetherGraph | Workspace</title>
+    <meta name="description" content="langextract Workspace - Analyze research documents, extract knowledge graphs, and query your knowledge base semantically using Gemini AI."/>
+    <title>langextract | Workspace</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Geist:wght@400;500&amp;display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -151,7 +152,8 @@
             background-color: rgba(123, 85, 0, 0.15);
         }
     </style>
-    <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <script src="/lib/vis-9.1.2/vis-network.min.js"></script>
+    <script src="/static/utils.js"></script>
 </head>
 <body class="bg-background text-on-background font-body-md min-h-screen overflow-hidden flex">
 
@@ -162,7 +164,7 @@
             <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">hub</span>
         </div>
         <div>
-            <h1 class="text-body-lg font-headline-md text-primary font-bold">AetherGraph</h1>
+            <h1 class="text-body-lg font-headline-md text-primary font-bold">langextract</h1>
             <p class="font-label-sm text-label-sm text-on-surface-variant">Active Workspace</p>
         </div>
     </div>
@@ -174,6 +176,10 @@
         <a class="flex items-center gap-3 px-4 py-3 bg-primary/10 text-primary rounded-xl transition-all duration-300 translate-x-1" href="/workspace">
             <span class="material-symbols-outlined">account_tree</span>
             <span class="font-label-md text-label-md">Workspace</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low rounded-xl transition-all duration-300" href="/studio">
+            <span class="material-symbols-outlined">data_object</span>
+            <span class="font-label-md text-label-md">HCI Studio</span>
         </a>
         <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low rounded-xl transition-all duration-300" href="/home">
             <span class="material-symbols-outlined">home</span>
@@ -228,10 +234,12 @@
                 </button>
                 <div class="flex items-center gap-3 cursor-pointer group">
                     <div class="text-right">
-                        <p class="font-label-md text-label-md text-void-black group-hover:text-primary font-bold">Alex Chen</p>
-                        <p class="text-[10px] uppercase tracking-wider text-on-surface-variant">Pro Plan</p>
+                        <p class="font-label-md text-label-md text-void-black group-hover:text-primary font-bold">Guest</p>
+                        <p class="text-[10px] uppercase tracking-wider text-on-surface-variant">Free Plan</p>
                     </div>
-                    <img alt="User Profile" class="w-10 h-10 rounded-full border-2 border-white shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfrSUC_-5frdrwRbnagF5zabagpoAjDc4hp3rP21eIR9geHTY28sO_-laxSAVTedQQNPj3HjV6LKPP_IXhGiRLki7KE5xz5swcT9bjm-6rP49BHMqSR8YAj7zzDVf3qTnJzqO5X-kb92JBXspeuXQwFLI-yjW5NxVAKm5z6q74zjzKR3aYYY6Am1nsJOvG80sYqVbAi00c_NCnHKyhY9mKMGZVAdzu2F01LncAYLZA96fpPwfD8-qHtuYUYHrgRB3VU27Oi8nTNRI"/>
+                    <div class="w-10 h-10 rounded-full border-2 border-white shadow-sm bg-primary/20 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary text-[20px]">person</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -304,7 +312,7 @@
                 </div>
             </div>
             <!-- Document Content Viewer -->
-            <div class="flex-grow overflow-y-auto bg-surface-bright" id="docContentViewerContainer">
+            <div class="flex-grow overflow-y-auto bg-surface-bright min-w-0" id="docContentViewerContainer">
                 <div class="max-w-3xl mx-auto p-8" id="docContentViewer">
                     <div class="text-center py-20 text-on-surface-variant/60">
                         <span class="material-symbols-outlined text-[48px] text-surface-container-highest mb-2">description</span>
@@ -348,7 +356,7 @@
           <span class="material-symbols-outlined text-white text-sm" style="font-variation-settings:'FILL' 1">smart_toy</span>
         </div>
         <div class="bg-surface-container-low p-4 rounded-2xl rounded-tl-none text-[13px] shadow-sm text-on-surface flex-grow border border-surface-container">
-          <p class="text-primary font-bold mb-1.5 text-[12px] uppercase tracking-wider">AetherGraph AI</p>
+          <p class="text-primary font-bold mb-1.5 text-[12px] uppercase tracking-wider">langextract AI</p>
           <p class="leading-relaxed">Hello! Ask me anything. I'll use your knowledge graph to answer — and fill in gaps from my own knowledge when needed.</p>
         </div>
       </div>
@@ -373,7 +381,7 @@
           <span class="material-symbols-outlined text-[16px]">send</span>
         </button>
       </div>
-      <p class="text-[10px] text-on-surface-variant/50 mt-2 text-center uppercase tracking-wider">Powered by AetherGraph AI • Graph-aware</p>
+      <p class="text-[10px] text-on-surface-variant/50 mt-2 text-center uppercase tracking-wider">Powered by langextract AI • Graph-aware</p>
     </div>
   </div>
 
@@ -596,8 +604,9 @@
       const answer = data.answer || 'Sorry, I could not generate a response.';
       const relatedNodes = data.related_nodes || [];
 
-      // Format markdown-ish bold (**text**)
-      const formatted = answer
+      // Format markdown-ish bold (**text**) — escape HTML first to prevent XSS
+      const escaped = escapeHtml(answer);
+      const formatted = escaped
         .replace(/\*\*(.+?)\*\*/g, '<span class="font-bold text-primary">$1</span>')
         .replace(/\n/g, '<br>');
 
@@ -614,7 +623,7 @@
             <span class="material-symbols-outlined text-white text-sm" style="font-variation-settings:'FILL' 1">smart_toy</span>
           </div>
           <div class="bg-surface-container-low border border-surface-container p-4 rounded-2xl rounded-tl-none text-[13px] shadow-sm text-on-surface flex-grow">
-            <p class="text-primary font-bold mb-2 text-[11px] uppercase tracking-wider">AetherGraph AI</p>
+            <p class="text-primary font-bold mb-2 text-[11px] uppercase tracking-wider">langextract AI</p>
             <p class="leading-relaxed">${formatted}</p>
             ${chipsHtml}
           </div>
@@ -667,9 +676,6 @@
     container.scrollTop = container.scrollHeight;
   }
 
-  function escapeHtml(str) {
-    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-  }
 
   function renderHighlights(text, highlights) {
     if (!highlights || highlights.length === 0) return escapeHtml(text);
@@ -1202,7 +1208,7 @@
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'AetherGraph_Summary.pdf';
+      a.download = 'langextract_Summary.pdf';
       document.body.appendChild(a);
       a.click();
       a.remove();
